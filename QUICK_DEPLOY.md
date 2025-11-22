@@ -36,12 +36,16 @@ openssl rand -base64 32
 1. 前往 https://vercel.com 並登入
 2. 點擊 **Add New...** → **Project**
 3. 選擇您的 Git 提供者（GitHub/GitLab/Bitbucket）
-4. 選擇 `todo-deployed` 倉庫
-5. **設定環境變數**（重要！在部署前設定）：
+4. 搜尋並選擇 `wp-1141-todo-deployed` 倉庫
+   - ⚠️ **提示**：如果您的程式碼已經 push 到 GitHub，可以直接在列表中選擇該倉庫
+5. **設定專案**：
+   - **Root Directory**: 留空（專案已在倉庫根目錄）
+   - 其他設定會自動從 `vercel.json` 讀取
+6. **設定環境變數**（重要！在部署前設定）：
    - `DATABASE_URL` - 您的 PostgreSQL 連接字串
    - `NEXTAUTH_SECRET` - 步驟 2 產生的密鑰
    - `NEXTAUTH_URL` - 先設定為 `https://your-project.vercel.app`（部署後可更新）
-6. 點擊 **Deploy**
+7. 點擊 **Deploy**
 
 #### 方法 B：使用 Vercel CLI
 
@@ -52,14 +56,17 @@ npm i -g vercel
 # 登入
 vercel login
 
-# 部署（在專案目錄下）
-cd todo-deployed
-vercel
+# 連結專案（在專案目錄下）
+cd todo-deployed  # 或您存放專案的位置
+vercel link        # 連結到現有的 Vercel 專案，或選擇建立新專案
 
-# 設定環境變數
+# 設定環境變數（在連結專案後）
 vercel env add DATABASE_URL
 vercel env add NEXTAUTH_SECRET
 vercel env add NEXTAUTH_URL
+
+# 部署到預覽環境
+vercel
 
 # 生產環境部署
 vercel --prod
@@ -71,7 +78,9 @@ vercel --prod
 
 ```bash
 # 方法 1：使用 Vercel CLI（推薦）
-cd todo-deployed
+# 確保已安裝 Vercel CLI: npm i -g vercel
+cd todo-deployed  # 或您存放專案的位置
+vercel link        # 連結到您的 Vercel 專案（如果還沒連結）
 vercel env pull .env.production
 DATABASE_URL=$(grep DATABASE_URL .env.production | cut -d '=' -f2-) npx prisma migrate deploy
 

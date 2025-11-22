@@ -6,7 +6,13 @@
 
 1. **Vercel 帳號**: 如果還沒有的話，請到 [vercel.com](https://vercel.com) 註冊
 2. **PostgreSQL 資料庫**: 需要一個 PostgreSQL 資料庫實例（可以使用 Vercel Postgres、Supabase、Neon 等）
-3. **GitHub/GitLab/Bitbucket 帳號**: 用於連接程式碼倉庫
+3. **GitHub 倉庫**: 程式碼已經推送到 GitHub 倉庫 `wp-1141-todo-deployed`
+   - ✅ 如果尚未 push 程式碼，請先執行：
+     ```bash
+     git add .
+     git commit -m "Initial commit"
+     git push -u origin main
+     ```
 
 ## 步驟 1: 準備資料庫
 
@@ -67,12 +73,13 @@ FACEBOOK_CLIENT_SECRET="your-facebook-client-secret"
    - 登入 Vercel Dashboard
    - 點擊 **Add New...** → **Project**
    - 選擇您的 Git 提供者（GitHub、GitLab 或 Bitbucket）
-   - 選擇 `todo-deployed` 倉庫
+   - 搜尋並選擇 `wp-1141-todo-deployed` 倉庫
+   - ⚠️ **注意**：如果您的程式碼已經 push 到 GitHub，可以直接在列表中選擇該倉庫
 
 2. **設定專案：**
 
    - **Framework Preset**: Next.js（應該會自動偵測）
-   - **Root Directory**: 如果專案在子目錄，設定為 `todo-deployed`
+   - **Root Directory**: 留空（專案已在倉庫根目錄）
    - **Build Command**: `prisma generate && next build`（應該會從 vercel.json 讀取）
    - **Output Directory**: `.next`（預設）
    - **Install Command**: `yarn install`（應該會從 vercel.json 讀取）
@@ -99,17 +106,19 @@ npm i -g vercel
 vercel login
 ```
 
-3. **部署：**
+3. **連結並部署：**
 
 ```bash
-cd todo-deployed
-vercel
+cd todo-deployed  # 或您存放專案的位置
+vercel link        # 連結到現有的 Vercel 專案，或選擇建立新專案
+vercel             # 部署到預覽環境
 ```
 
 按照提示操作：
 
 - 連結現有專案或建立新專案
 - 確認設定（vercel.json 會自動套用）
+- ⚠️ **注意**：如果您還沒連結專案，可能需要先在 Vercel Dashboard 建立專案
 
 4. **設定環境變數：**
 
