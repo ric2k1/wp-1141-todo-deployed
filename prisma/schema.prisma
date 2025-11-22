@@ -1,0 +1,38 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          String   @id @default(cuid())
+  alias       String   @unique      // Custom username for login
+  email       String?  
+  oauthName   String?              // Real name from OAuth provider
+  image       String?
+  provider    String               // google, github, facebook
+  oauthId     String               // OAuth provider's user ID
+  isAuthorized Boolean @default(false) // Whether OAuth authorization is complete
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@unique([provider, oauthId])
+}
+
+model Todo {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  tags        String[] // PostgreSQL array for simplicity
+  completed   Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@index([createdAt])
+}
